@@ -4,8 +4,10 @@ package object yycfp {
 
   def longestContiguousIncreasingRange(xs: Seq[Int]): (Int, Int) = {
 
-    // define a partial function that takes current value->index tuple and returns the index if the current value is <=previous
-    val decreasingChange: PartialFunction[(Int, Int), Int] = { case (x, i) if i > 0 && x <= xs(i-1) => i }
+    // define a partial that takes current value->index tuple and returns the index if the current value is <=previous
+    val decreasingChange: PartialFunction[(Int, Int), Int] = {
+      case (x, i) if i > 0 && x <= xs(i-1) => i
+    }
 
     // detect all the changes based on the decreasingChange function above
     val changes = 0 +: xs.zipWithIndex.collect(decreasingChange) :+ xs.size
