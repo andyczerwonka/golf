@@ -2,24 +2,27 @@
 
 package object yycfp {
 
-  def longestContiguousIncreasingRange(xs: Seq[Int]): (Int, Int) = {
+  def longestContiguousIncreasingRange(xs: Seq[Int]): Option[(Int, Int)] = {
+    if (xs != null && xs != Nil) {
+      Option {
+        // we'll use this locally scoped partial to return the index when the current value is <=previous
+        val decreasingChange: PartialFunction[(Int, Int), Int] = {
+          case (x, i) if i > 0 && x <= xs(i - 1) => i
+        }
 
-    // we'll use this locally scoped partial to return the index when the current value is <=previous
-    val decreasingChange: PartialFunction[(Int, Int), Int] = {
-      case (x, i) if i > 0 && x <= xs(i-1) => i
-    }
+        // detect all the changes based on the decreasingChange function above
+        val changes = 0 +: xs.zipWithIndex.collect(decreasingChange) :+ xs.size
 
-    // detect all the changes based on the decreasingChange function above
-    val changes = 0 +: xs.zipWithIndex.collect(decreasingChange) :+ xs.size
+        // find the longest chain
+        val (index, length) = changes
+          .sliding(2)
+          .map({ case Seq(l, r) => (l, r - l) })
+          .maxBy(_._2)
 
-    // find the longest chain
-    val (index, length) = changes
-      .sliding(2)
-      .map({case Seq(l, r) => (l, r - l)})
-      .maxBy(_._2)
-
-    // return the two indexes
-    (index, index + length - 1)
+        // return the two indexes
+        (index, index + length - 1)
+      }
+    } else None
   }
 
 }
