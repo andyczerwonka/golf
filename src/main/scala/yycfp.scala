@@ -13,13 +13,16 @@ package object yycfp {
       val changes = 0 +: xs.zipWithIndex.collect(decreasingChange) :+ xs.size
 
       // find the longest chain
-      val (index, length) = changes
+      val longest = changes
         .sliding(2)
         .map({ case Seq(l, r) => (l, r - l) })
         .maxBy(_._2)
 
-      // calculate the two indexes
-      Some(index, index + length - 1)
+      // return None if the length is 0, otherwise the two indexes
+      longest match {
+        case (_, 0) => None
+        case (index, length) => Some(index, index + length - 1)
+      }
     } else None
   }
 
