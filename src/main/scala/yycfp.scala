@@ -3,7 +3,7 @@
 package object yycfp {
 
   def longestContiguousIncreasingRange(xs: Seq[Int]): Option[(Int, Int)] = {
-    if (xs != null && xs != Nil) {
+    if (xs != Nil) {
       // we'll use this locally scoped partial to return the index when the current value is <=previous
       val decreasingChange: PartialFunction[(Int, Int), Int] = {
         case (x, i) if i > 0 && x <= xs(i - 1) => i

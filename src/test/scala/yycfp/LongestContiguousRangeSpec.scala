@@ -9,8 +9,16 @@ class LongestContiguousRangeSpec extends FlatSpec with Matchers {
     longestContiguousIncreasingRange(xs) shouldEqual Some(3,8)
   }
 
-  it should "return (0,0) if the input sequence contains one element in the sequence" in {
+  it should "return (0,0) if the input sequence decreases" in {
+    longestContiguousIncreasingRange(Vector(5, 4, 3, 2, 1)) shouldEqual Some(0,0)
+  }
+
+  it should "return (0,0) if the input sequence contains one element" in {
     longestContiguousIncreasingRange(Vector(1)) shouldEqual Some(0,0)
+  }
+
+  it should "return (0,1) if the input sequence contains two increasing elements" in {
+    longestContiguousIncreasingRange(Vector(1, 2)) shouldEqual Some(0,1)
   }
 
   it should "return None when the input sequence is empty" in {
