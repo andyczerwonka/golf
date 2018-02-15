@@ -8,4 +8,3 @@ val (index, length) = changes
   .maxBy(_._2)
 
 (index, index + length - 1)
-
